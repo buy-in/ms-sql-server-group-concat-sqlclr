@@ -1,0 +1,8 @@
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\bin\Release\GroupConcat.dacpac
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\bin\Release\GroupConcat.dll
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\obj\Release\GroupConcat.sqlproj.AssemblyReference.cache
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\obj\Release\Model.xml
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\obj\Release\refactor.xml
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\obj\Release\postdeploy.sql
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\obj\Release\predeploy.sql
+c:\dev\ms-sql-server-group-concat-sqlclr\GroupConcat\obj\Release\GroupConcat.dll

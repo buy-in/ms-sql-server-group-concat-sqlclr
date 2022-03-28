@@ -57,6 +57,13 @@ IF EXISTS ( SELECT  *
 GO
 
 IF EXISTS ( SELECT  *
+            FROM    sys.objects
+            WHERE   object_id = OBJECT_ID(N'[dbo].[GROUP_CONCAT_U]')
+                    AND type = N'AF' ) 
+    DROP AGGREGATE [dbo].[GROUP_CONCAT_U]
+GO
+
+IF EXISTS ( SELECT  *
             FROM    sys.assemblies asms
             WHERE   asms.name = N'GroupConcat'
                     AND is_user_defined = 1 ) 

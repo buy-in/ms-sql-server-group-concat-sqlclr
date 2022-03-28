@@ -25,93 +25,94 @@ using System.Text;
 
 namespace GroupConcat
 {
-    [Serializable]
-    [SqlUserDefinedAggregate(Format.UserDefined,
-                             MaxByteSize = -1,
-                             IsInvariantToNulls = true,
-                             IsInvariantToDuplicates = false,
-                             IsInvariantToOrder = true,
-                             IsNullIfEmpty = true)]
-    public struct GROUP_CONCAT : IBinarySerialize
+  [Serializable]
+  [SqlUserDefinedAggregate(Format.UserDefined,
+                           MaxByteSize = -1,
+                           IsInvariantToNulls = true,
+                           IsInvariantToDuplicates = false,
+                           IsInvariantToOrder = true,
+                           IsNullIfEmpty = true)]
+  // ReSharper disable once InconsistentNaming
+  public struct GROUP_CONCAT : IBinarySerialize
+  {
+    private Dictionary<string, int> _values;
+
+    public void Init()
     {
-        private Dictionary<string, int> values;
-
-        public void Init()
-        {
-            this.values = new Dictionary<string, int>();
-        }
-
-        public void Accumulate([SqlFacet(MaxSize = 4000)] SqlString VALUE)
-        {
-            if (!VALUE.IsNull)
-            {
-                string key = VALUE.Value;
-                if (this.values.ContainsKey(key))
-                {
-                    this.values[key] += 1;
-                }
-                else
-                {
-                    this.values.Add(key, 1);
-                }
-            }
-        }
-
-        public void Merge(GROUP_CONCAT Group)
-        {
-            foreach (KeyValuePair<string, int> item in Group.values)
-            {
-                string key = item.Key;
-                if (this.values.ContainsKey(key))
-                {
-                    this.values[key] += Group.values[key];
-                }
-                else
-                {
-                    this.values.Add(key, Group.values[key]);
-                }
-            }
-        }
-
-        [return: SqlFacet(MaxSize = -1)]
-        public SqlString Terminate()
-        {
-            if (this.values != null && this.values.Count > 0)
-            {
-                StringBuilder returnStringBuilder = new StringBuilder();
-
-                foreach (KeyValuePair<string, int> item in this.values)
-                {
-                    for (int value = 0; value < item.Value; value++)
-                    {
-                        returnStringBuilder.Append(item.Key);
-                        returnStringBuilder.Append(",");
-                    }
-                }
-                return returnStringBuilder.Remove(returnStringBuilder.Length - 1, 1).ToString();
-            }
-
-            return null;
-        }
-
-        public void Read(BinaryReader r)
-        {
-            int itemCount = r.ReadInt32();
-            this.values = new Dictionary<string, int>(itemCount);
-            for (int i = 0; i <= itemCount - 1; i++)
-            {
-                this.values.Add(r.ReadString(), r.ReadInt32());
-            }
-        }
-
-        public void Write(BinaryWriter w)
-        {
-            w.Write(this.values.Count);
-            foreach (KeyValuePair<string, int> s in this.values)
-            {
-                w.Write(s.Key);
-                w.Write(s.Value);
-            }
-        }
+      _values = new Dictionary<string, int>();
     }
+
+    public void Accumulate([SqlFacet(MaxSize = 4000)] SqlString value)
+    {
+      if (!value.IsNull)
+      {
+        string key = value.Value;
+        if (_values.ContainsKey(key))
+        {
+          _values[key] += 1;
+        }
+        else
+        {
+          _values.Add(key, 1);
+        }
+      }
+    }
+
+    public void Merge(GROUP_CONCAT group)
+    {
+      foreach (KeyValuePair<string, int> item in group._values)
+      {
+        string key = item.Key;
+        if (_values.ContainsKey(key))
+        {
+          _values[key] += group._values[key];
+        }
+        else
+        {
+          _values.Add(key, group._values[key]);
+        }
+      }
+    }
+
+    [return: SqlFacet(MaxSize = -1)]
+    public SqlString Terminate()
+    {
+      if (_values != null && _values.Count > 0)
+      {
+        StringBuilder returnStringBuilder = new StringBuilder();
+
+        foreach (KeyValuePair<string, int> item in _values)
+        {
+          for (int value = 0; value < item.Value; value++)
+          {
+            returnStringBuilder.Append(item.Key);
+            returnStringBuilder.Append(',');
+          }
+        }
+        return returnStringBuilder.Remove(returnStringBuilder.Length - 1, 1).ToString();
+      }
+
+      return null;
+    }
+
+    public void Read(BinaryReader r)
+    {
+      int itemCount = r.ReadInt32();
+      _values = new Dictionary<string, int>(itemCount);
+      for (int i = 0; i <= itemCount - 1; i++)
+      {
+        _values.Add(r.ReadString(), r.ReadInt32());
+      }
+    }
+
+    public void Write(BinaryWriter w)
+    {
+      w.Write(_values.Count);
+      foreach (KeyValuePair<string, int> s in _values)
+      {
+        w.Write(s.Key);
+        w.Write(s.Value);
+      }
+    }
+  }
 }

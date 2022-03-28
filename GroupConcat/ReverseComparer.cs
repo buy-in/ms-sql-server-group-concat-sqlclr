@@ -16,16 +16,17 @@ See http://www.gnu.org/licenses/ for a copy of the GNU General Public
 License.
 */
 
+using System;
 using System.Collections.Generic;
 
 namespace GroupConcat
 {
-    public class ReverseComparer : IComparer<string>
+  public class ReverseComparer : IComparer<string>
+  {
+    public int Compare(string x, string y)
     {
-        public int Compare(string x, string y)
-        {
-            // Compare y and x in reverse order.
-            return y.CompareTo(x);
-        }
+      // Compare y and x in reverse order.
+      return string.Compare(y, x, StringComparison.Ordinal);
     }
+  }
 }

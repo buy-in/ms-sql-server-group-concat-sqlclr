@@ -90,22 +90,11 @@
     <Compile Include="GROUP_CONCAT_S.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReverseComparer.cs" />
+    <Compile Include="GROUP_CONCAT_U.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Installation Scripts\GroupConcatUninstallation.sql" />
     <Content Include="Installation Scripts\GroupConcatInstallation.sql" />
-    <Content Include="Installation Scripts\Test.1.BuildTestData.sql" />
-    <Content Include="Installation Scripts\Test.2.DemoFunctions.sql" />
-    <Content Include="Performance Test Scripts\Performance.5.ProcessPerformanceTestOutput.sql" />
-    <Content Include="Performance Test Scripts\Performance.1.Setup.sql" />
-    <Content Include="Performance Test Scripts\Performance.2.BuildCLRObjects.sql" />
-    <Content Include="Performance Test Scripts\Performance.3.BuildTestData.sql" />
-    <Content Include="Performance Test Scripts\Performance.4.RunPerformanceTests.sql" />
-    <Content Include="Performance Test Scripts\Performance.6.InterpretTestResults.sql" />
-    <Content Include="Performance Test Scripts\Performance.7.Cleanup.sql" />
-    <Content Include="Test Scripts\Test.sql">
-      <SubType>Content</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="PreDeployScript.sql" />
@@ -116,8 +105,6 @@
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="Installation Scripts\" />
-    <Folder Include="Performance Test Scripts\" />
-    <Folder Include="Test Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GroupConcat.publish.xml" />
